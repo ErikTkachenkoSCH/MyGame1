@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 
 WIDTH = 800
 HEIGTH = 600
@@ -7,6 +8,21 @@ HEIGTH = 600
 Width_Game = 600
 Height_Game = 600
 
+
+class Food:
+    Rand_Food_height = random.sample(range(1, 599), 3)
+    print(Rand_Food_height)
+
+    Rand_Food_width = random.sample(range(1, 599), 3)
+    print(Rand_Food_width)
+
+    position = [300, 300]
+
+    def __init__(self):
+        self.position = [200, 200]
+
+    def draw_food(self, a_game):
+        pygame.draw.rect(a_game.screen, 'white', (self.position[0], self.position[1], 300, 300))
 
 
 class Snake:
@@ -34,9 +50,8 @@ class Snake:
         pygame.draw.rect(a_game.screen, 'white', (self.head_pos[0], self.head_pos[1], 10, 10))
         # print(f'tail {self.tail_snake}')
         for t in self.tail_snake:
-            pygame.draw.circle(a_game.screen, 'white', (t[0]+5,t[1]+5), 5)
+            pygame.draw.circle(a_game.screen, 'white', (t[0]+5, t[1]+5), 5)
             # print(t)
-
 
     def move_snake(self):
         back_snake = []
@@ -53,29 +68,29 @@ class Snake:
             i = 1
             while i <= len(self.tail_snake)-1:
                 self.tail_snake[i][0] = back_snake[i-1][0]
-                self.tail_snake[i][1] = back_snake[i-1][1] #- 10
+                self.tail_snake[i][1] = back_snake[i-1][1]  #- 10
                 i += 1
             # pygame.time.wait(1000)
         elif self.vector == 'up':
             for i, t in enumerate(self.tail_snake):
                 if i == 0:
-                    t[1] = self.head_pos[1] #+ 10
+                    t[1] = self.head_pos[1]  #+ 10
                     t[0] = self.head_pos[0]
             self.head_pos[1] -= 10
             i = 1
             while i <= len(self.tail_snake)-1:
                 self.tail_snake[i][0] = back_snake[i-1][0]
-                self.tail_snake[i][1] = back_snake[i-1][1] #+ 10
+                self.tail_snake[i][1] = back_snake[i-1][1]  #+ 10
                 i += 1
         elif self.vector == 'left':
             for i, t in enumerate(self.tail_snake):
                 if i == 0:
                     t[1] = self.head_pos[1]
-                    t[0] = self.head_pos[0] #+ 10
+                    t[0] = self.head_pos[0]  #+ 10
             self.head_pos[0] -= 10
             i = 1
             while i <= len(self.tail_snake)-1:
-                self.tail_snake[i][0] = back_snake[i-1][0] #+ 10
+                self.tail_snake[i][0] = back_snake[i-1][0]  #+ 10
                 self.tail_snake[i][1] = back_snake[i-1][1]
                 i += 1
                 print(f'back {back_snake}')
@@ -84,11 +99,11 @@ class Snake:
             for i, t in enumerate(self.tail_snake):
                 if i == 0:
                     t[1] = self.head_pos[1]
-                    t[0] = self.head_pos[0] #- 10
+                    t[0] = self.head_pos[0]  #- 10
             self.head_pos[0] += 10
             i = 1
             while i <= len(self.tail_snake)-1:
-                self.tail_snake[i][0] = back_snake[i-1][0] #- 10
+                self.tail_snake[i][0] = back_snake[i-1][0]  #- 10
                 self.tail_snake[i][1] = back_snake[i-1][1]
                 i += 1
                 print(f'back {back_snake}')
@@ -96,13 +111,13 @@ class Snake:
                 # pygame.time.wait(1000)
 
         if self.head_pos[0] >= 605:
-            Game.Stop_Game=True
+            Game.Stop_Game = True
         if self.head_pos[0] <= 5:
-            Game.Stop_Game=True
+            Game.Stop_Game = True
         if self.head_pos[1] >= 605:
-            Game.Stop_Game=True
+            Game.Stop_Game = True
         if self.head_pos[1] <= 5:
-            Game.Stop_Game=True
+            Game.Stop_Game = True
 
         #Checked tail
         i = 0
@@ -118,7 +133,6 @@ class Snake:
 class Game:
     Stop_Game = False
 
-
     def __int__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGTH))
@@ -126,7 +140,7 @@ class Game:
         self.clock = pygame.time.Clock()
 
         self.game_border_pass = [5, 5]
-        pygame.draw.rect(self.screen, 'blue',(self.game_border_pass[0], self.game_border_pass[1], Width_Game, Height_Game))
+        pygame.draw.rect(self.screen, 'blue', (self.game_border_pass[0], self.game_border_pass[1], Width_Game, Height_Game))
 
     def run(self):
         snake = Snake()
@@ -152,7 +166,7 @@ class Game:
 
             #self.screen.fill('black')
             self.game_border_pass = [5, 5]
-            pygame.draw.rect(self.screen, 'blue',(self.game_border_pass[0], self.game_border_pass[1], Width_Game, Height_Game))
+            pygame.draw.rect(self.screen, 'blue', (self.game_border_pass[0], self.game_border_pass[1], Width_Game, Height_Game))
             snake.move_snake()
             snake.draw_snake(game)
             pygame.display.update()
